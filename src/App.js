@@ -183,7 +183,7 @@ function App() {
         canvas.getContext('2d').drawImage(recordedVideo, window.innerWidth - 205, window.innerHeight - 125 - 150, (1280 * 105) / 720, 105);
       } else {
         window.width = (width * 105) / (height);
-        canvas.getContext('2d').drawImage(recordedVideo, 0, 0, window.innerWidth, window.videoHeight);
+        canvas.getContext('2d').drawImage(recordedVideo, 0, 0,  window.innerWidth, (window.videoHeight * window.innerWidth)/1280);
         canvas.getContext('2d').drawImage(video, window.innerWidth - 205, window.innerHeight - 125 - 150, (width * 105) / (height), 105);
       }
     }
@@ -356,9 +356,11 @@ function App() {
         <video id="screen" className={`${expanded == "recorded" && "bottom-right"}`} autoPlay playsInline muted style={{ position: "absolute", visibility: "hidden", height: 0 }}></video>
         <video id="recorded" className={`${expanded == "screen" && "bottom-right"}`} playsInline autoPlay muted style={{ position: "absolute", visibility: "hidden", height: 0 }}></video>
         <div id="errorMsg"></div>
-        {screenshare && recording && <div style={{ right: 20, top: 20, zIndex: 22 }} className="switch v-middle" onClick={() => setExpanded(expanded == "screen" ? "recorded" : "screen")}>
-          <img src="https://image.flaticon.com/icons/svg/125/125868.svg" width="20px" height="20px" className="v-middle" />
-          <span className="circular v-middle" style={{ fontSize: 17 }}>Switch views</span>
+        {screenshare && recording &&  <div style={{ right: 20, top: 20, zIndex: 22 }} className="switch v-middle" onClick={() => setExpanded(expanded == "screen" ? "recorded" : "screen")}>
+          <div style={{    marginTop: -7}}>
+            <img src="https://image.flaticon.com/icons/svg/125/125868.svg" width="20px" height="20px" className="v-middle" style={{marginRight:10, marginLeft:3}} />
+            <span className="circular v-middle" style={{ fontSize: 17 }}>Switch views</span>
+          </div>
         </div>}
 
         {storing && <div id="animate-flicker" style={{ left: 20, top: 8, zIndex: 22, position: "fixed" }} title="Recording">

@@ -71,7 +71,7 @@ code {
 
 .action-buttons {
 	position: fixed;
-	bottom: 40px;
+	bottom: 35px;
 	text-align: center;
 	z-index: 200;
 }
