@@ -41,6 +41,7 @@ function App() {
   const [expanded, setExpanded] = useState("recorded")
   const [drawVideoIntervalId, setDrawVideoIntervalId] = useState('')
   const [screenShareVideoIntervalId, setDrawScreenShareIntervalId] = useState('')
+  const [canvasPos, setCanvasPos] = useState({})
   const {
     minutes,
     hours,
@@ -69,6 +70,15 @@ function App() {
 
   }
 
+  function canvasResize(){
+    if((!screenshare && recording)||(screenshare && window.expanded !== 'screen')){
+      let fromLeft = ((window.innerWidth - ((1280*(window.innerHeight-125))/720))/2)
+      if(fromLeft > 0 ){
+        setCanvasPos({...canvasPos, left:fromLeft})
+      }
+    }
+  }
+
   function handleSuccess(stream) {
     setScreenshare(true)
     const video = document.querySelector('video#screen');
@@ -92,7 +102,7 @@ function App() {
       aspectRatio: stream.getVideoTracks()[0].getSettings().aspectRatio,
       height: stream.getVideoTracks()[0].getSettings().height,
       width: stream.getVideoTracks()[0].getSettings().width
-    }), 1000 / 60)
+    }), 1000/24)
     setDrawScreenShareIntervalId(setIntervalDrawScreenShareId)
     stream.getVideoTracks()[0].addEventListener('ended', () => {
       setScreenshare(false)
@@ -161,7 +171,7 @@ function App() {
       let setIntervalDrawVideoId = window.setInterval(() => drawOnCanvas({
         recording: true,
         screenshare,
-      }), 1000 / 60)
+      }), 1000 / 24)
       setDrawVideoIntervalId(setIntervalDrawVideoId)
     } else {
       drawOnCanvas({
@@ -180,16 +190,19 @@ function App() {
     if (window.recording && window.screenshare) {
       if (window.expanded == 'screen') {
         canvas.getContext('2d').drawImage(video, 0, 0, width, height);
-        canvas.getContext('2d').drawImage(recordedVideo, window.innerWidth - 205, window.innerHeight - 125 - 150, (1280 * 105) / 720, 105);
+        canvas.getContext('2d').drawImage(recordedVideo, ((window.innerWidth - (1280 * 105) / 720) - 50), window.innerHeight - 125 - 150, (1280 * 105) / 720, 105);
       } else {
         window.width = (width * 105) / (height);
-        canvas.getContext('2d').drawImage(recordedVideo, 0, 0, window.innerWidth, window.videoHeight);
-        canvas.getContext('2d').drawImage(video, window.innerWidth - 205, window.innerHeight - 125 - 150, (width * 105) / (height), 105);
+        let fromLeft = ((window.innerWidth - ((1280*(window.innerHeight-125))/720))/2)
+        fromLeft = fromLeft > 0 ? fromLeft : -100
+        let X = ((1280*(window.innerHeight-125))/720) + fromLeft/2 - ((width * 105) / (height))
+        canvas.getContext('2d').drawImage(recordedVideo, 0, 0,  (1280*(window.innerHeight-125))/720, window.innerHeight-125);
+        canvas.getContext('2d').drawImage(video,X,window.innerHeight - 125 - 150,  (width * 105) / (height), 105);
       }
     }
     else {
       if (window.recording) {
-        canvas.getContext('2d').drawImage(recordedVideo, 0, 0, window.innerWidth, (window.videoHeight * window.innerWidth)/1280);
+        canvas.getContext('2d').drawImage(recordedVideo, 0, 0, (1280*(window.innerHeight-125))/720, window.innerHeight-125);
       }
       if (window.screenshare) {
         canvas.getContext('2d').drawImage(video, 0, 0, width, height);
@@ -226,7 +239,8 @@ function App() {
     //     audioStream.getAudioTracks()[0].stop();
     // } else {
         navigator.mediaDevices.getUserMedia({
-            audio: true
+            audio: true,
+            echoCancellation: { exact: true }
         }).then(function(stream) {
             window.audioStream = stream;
         });
@@ -243,9 +257,15 @@ function App() {
   useEffect(() => {
     recordAudio()
     setAudioRecording(true)
+    canvasResize()
   }, [])
 
 
+  useEffect(() => {
+    canvasResize()
+  }, [recording, screenshare, expanded])
+
+  window.addEventListener('resize', canvasResize)
 
   function startRecording() {
     recordedBlobs = []
@@ -356,15 +376,17 @@ function App() {
         <video id="screen" className={`${expanded == "recorded" && "bottom-right"}`} autoPlay playsInline muted style={{ position: "absolute", visibility: "hidden", height: 0 }}></video>
         <video id="recorded" className={`${expanded == "screen" && "bottom-right"}`} playsInline autoPlay muted style={{ position: "absolute", visibility: "hidden", height: 0 }}></video>
         <div id="errorMsg"></div>
-        {screenshare && recording && <div style={{ right: 20, top: 20, zIndex: 22 }} className="switch v-middle" onClick={() => setExpanded(expanded == "screen" ? "recorded" : "screen")}>
-          <img src="https://image.flaticon.com/icons/svg/125/125868.svg" width="20px" height="20px" className="v-middle" />
-          <span className="circular v-middle" style={{ fontSize: 17 }}>Switch views</span>
+        {screenshare && recording &&  <div style={{ right: 20, top: 20, zIndex: 22 }} className="switch v-middle" onClick={() => setExpanded(expanded == "screen" ? "recorded" : "screen")}>
+          <div className="switch-div">
+            <img src="https://image.flaticon.com/icons/svg/125/125868.svg" width="20px" height="20px" className="v-middle" style={{marginRight:10, marginLeft:3}} />
+            <span className="circular v-middle" style={{ fontSize: 17, marginTop:-2 }}>Switch views</span>
+          </div>
         </div>}
 
         {storing && <div id="animate-flicker" style={{ left: 20, top: 8, zIndex: 22, position: "fixed" }} title="Recording">
           <img src={live} width="50px" height="50px" className="v-middle" />
         </div>}
-        <canvas style={{ zIndex:10, position: (!recording && !screenshare) ? "absolute" :  !screenshare && recording ? "absolute":"null", top: !screenshare && recording && (((window.innerHeight - ((window.videoHeight * window.innerWidth)/1280))/2)) }}></canvas>
+        <canvas style={{ zIndex:10, position: (!recording && !screenshare) ? "absolute" :  (!screenshare && recording)||(screenshare && window.expanded !== 'screen') ? "absolute":"null", left: window.expanded !== 'screen' && canvasPos.left }}></canvas>
         {storing && <div className="timer circular" style={{ color: "#f3f1f1" }}>
           <div style={{ display: "inline-block" }}>{hours <= 9 ? "0" + hours : hours}:</div><div style={{ display: "inline-block" }}>{minutes <= 9 ? <span>0{minutes}</span> : minutes}:</div>
           <div style={{ display: "inline-block" }}>{seconds <= 9 ? "0" + seconds : seconds}</div>
