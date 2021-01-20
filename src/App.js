@@ -226,7 +226,8 @@ function App() {
     //     audioStream.getAudioTracks()[0].stop();
     // } else {
         navigator.mediaDevices.getUserMedia({
-            audio: true
+            audio: true,
+            echoCancellation: { exact: true }
         }).then(function(stream) {
             window.audioStream = stream;
         });
@@ -366,7 +367,7 @@ function App() {
         {storing && <div id="animate-flicker" style={{ left: 20, top: 8, zIndex: 22, position: "fixed" }} title="Recording">
           <img src={live} width="50px" height="50px" className="v-middle" />
         </div>}
-        <canvas style={{ zIndex:10, position: (!recording && !screenshare) ? "absolute" :  !screenshare && recording ? "absolute":"null", top: !screenshare && recording && (((window.innerHeight - ((window.videoHeight * window.innerWidth)/1280))/2)) }}></canvas>
+        <canvas style={{ zIndex:10, position: (!recording && !screenshare) ? "absolute" :  (!screenshare && recording)||(screenshare && window.expanded !== 'screen') ? "absolute":"null", top: ((!screenshare && recording)||(screenshare && window.expanded !== 'screen')) && (((window.innerHeight - ((window.videoHeight * window.innerWidth)/1280))/2)) }}></canvas>
         {storing && <div className="timer circular" style={{ color: "#f3f1f1" }}>
           <div style={{ display: "inline-block" }}>{hours <= 9 ? "0" + hours : hours}:</div><div style={{ display: "inline-block" }}>{minutes <= 9 ? <span>0{minutes}</span> : minutes}:</div>
           <div style={{ display: "inline-block" }}>{seconds <= 9 ? "0" + seconds : seconds}</div>
