@@ -203,3 +203,10 @@ video {
 .action-buttons .__react_component_tooltip::after {
 	border-top-color: #1b1e24 !important;
 }
+
+.switch-div{
+	margin-top: 7px;
+    position: relative;
+    display: flex;
+    margin-left: 16px;
+}
