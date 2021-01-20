@@ -97,6 +97,8 @@ function App() {
       clearCanvas()
     }
 
+    window.screenAspectRatio = stream.getVideoTracks()[0].getSettings().aspectRatio;
+
     let setIntervalDrawScreenShareId = window.setInterval(() => drawOnCanvas({
       recording,
       screenshare: true,
@@ -192,7 +194,10 @@ function App() {
     const video = document.querySelector('video#screen');
     if (window.recording && window.screenshare) {
       if (window.expanded == 'screen') {
-        canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+        let xValue =  (window.innerHeight - 125)* aspectRatio || window.screenAspectRatio
+        let fromLeft = (window.innerWidth - xValue)/2
+        fromLeft =  fromLeft > 0 ? fromLeft : 0 
+        canvas.getContext('2d').drawImage(video, fromLeft, 0, (window.innerHeight - 125) *  (aspectRatio || window.screenAspectRatio), window.innerHeight - 125);
         canvas.getContext('2d').drawImage(recordedVideo, ((window.innerWidth - (1280 * 105) / 720) - 50), window.innerHeight - 125 - 150, (1280 * 105) / 720, 105);
       } else {
         let xValue = (window.innerHeight-125) * window.aspectRatio
@@ -212,7 +217,10 @@ function App() {
         canvas.getContext('2d').drawImage(recordedVideo, fromLeft, 0, xValue, yValue);
       }
       if (window.screenshare) {
-        canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+        let xValue =  (window.innerHeight - 125)*  (aspectRatio || window.screenAspectRatio)
+        let fromLeft = (window.innerWidth - xValue)/2
+        fromLeft =  fromLeft > 0 ? fromLeft : 0 
+        canvas.getContext('2d').drawImage(video, fromLeft, 0, (window.innerHeight - 125)*(aspectRatio || window.screenAspectRatio), window.innerHeight - 125);
       }
     }
   }
