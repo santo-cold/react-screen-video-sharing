@@ -72,7 +72,9 @@ function App() {
 
   function canvasResize(){
     if((!screenshare && recording)||(screenshare && window.expanded !== 'screen')){
-      let fromLeft = ((window.innerWidth - ((1280*(window.innerHeight-125))/720))/2)
+      let aspectRatio = 1.77777777778
+      let xValue = (window.innerHeight-125) * aspectRatio
+      let fromLeft = (window.innerWidth - xValue)/2
       if(fromLeft > 0 ){
         setCanvasPos({...canvasPos, left:fromLeft})
       }
@@ -167,6 +169,7 @@ function App() {
     gumVideo.srcObject = stream;
     window.videoHeight = stream.getVideoTracks()[0].getSettings().height;
     window.videoWidth = stream.getVideoTracks()[0].getSettings().width;
+    window.aspectRatio= stream.getVideoTracks()[0].getSettings().aspectRatio;
     if (!screenshare) {
       let setIntervalDrawVideoId = window.setInterval(() => drawOnCanvas({
         recording: true,
@@ -184,7 +187,7 @@ function App() {
   function drawOnCanvas({ aspectRatio, width, height, recording, screenshare }) {
     const canvas = window.canvas = document.querySelector('canvas');
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.height = window.innerHeight - 125;
     const recordedVideo = document.querySelector('video#recorded');
     const video = document.querySelector('video#screen');
     if (window.recording && window.screenshare) {
@@ -192,17 +195,21 @@ function App() {
         canvas.getContext('2d').drawImage(video, 0, 0, width, height);
         canvas.getContext('2d').drawImage(recordedVideo, ((window.innerWidth - (1280 * 105) / 720) - 50), window.innerHeight - 125 - 150, (1280 * 105) / 720, 105);
       } else {
-        window.width = (width * 105) / (height);
-        let fromLeft = ((window.innerWidth - ((1280*(window.innerHeight-125))/720))/2)
-        fromLeft = fromLeft > 0 ? fromLeft : -100
-        let X = ((1280*(window.innerHeight-125))/720) + fromLeft/2 - ((width * 105) / (height))
-        canvas.getContext('2d').drawImage(recordedVideo, 0, 0,  (1280*(window.innerHeight-125))/720, window.innerHeight-125);
-        canvas.getContext('2d').drawImage(video,X,window.innerHeight - 125 - 150,  (width * 105) / (height), 105);
+        let xValue = (window.innerHeight-125) * window.aspectRatio
+        let yValue =  window.innerHeight-125;
+        let fromLeft = (window.innerWidth - xValue)/2
+        fromLeft =  fromLeft > 0 ? fromLeft : 0 
+        canvas.getContext('2d').drawImage(recordedVideo, fromLeft, 0, xValue, yValue);
+        canvas.getContext('2d').drawImage(video, ((window.innerWidth - (1280 * 105) / 720) - 50) ,window.innerHeight - 125 - 150,  (width * 105) / (height), 105);
       }
     }
     else {
       if (window.recording) {
-        canvas.getContext('2d').drawImage(recordedVideo, 0, 0, (1280*(window.innerHeight-125))/720, window.innerHeight-125);
+        let xValue = (window.innerHeight-125) * window.aspectRatio
+        let yValue =  window.innerHeight-125;
+        let fromLeft = (window.innerWidth - xValue)/2
+        fromLeft =  fromLeft > 0 ? fromLeft : 0 
+        canvas.getContext('2d').drawImage(recordedVideo, fromLeft, 0, xValue, yValue);
       }
       if (window.screenshare) {
         canvas.getContext('2d').drawImage(video, 0, 0, width, height);
@@ -327,9 +334,9 @@ function App() {
 
 
   return (
-    <div className="App">
+    <div className="App" >
       <ReactNotification />
-      <header className="App-header" id="content">
+      <header className="App-header" id="content" style={{overflow:"hidden"}}>
         {(!recording && !screenshare) ? <div style={{ marginTop: -115 }}>
           <img src={defaultImg} width="400px" height="auto" />
           <div className="circular text-center" style={{ marginTop: 30 }}>
@@ -379,14 +386,14 @@ function App() {
         {screenshare && recording &&  <div style={{ right: 20, top: 20, zIndex: 22 }} className="switch v-middle" onClick={() => setExpanded(expanded == "screen" ? "recorded" : "screen")}>
           <div className="switch-div">
             <img src="https://image.flaticon.com/icons/svg/125/125868.svg" width="20px" height="20px" className="v-middle" style={{marginRight:10, marginLeft:3}} />
-            <span className="circular v-middle" style={{ fontSize: 17, marginTop:-2 }}>Switch views</span>
+            <span className="circular v-middle" style={{ fontSize: 17, marginTop:-1 }}>Switch views</span>
           </div>
         </div>}
 
         {storing && <div id="animate-flicker" style={{ left: 20, top: 8, zIndex: 22, position: "fixed" }} title="Recording">
           <img src={live} width="50px" height="50px" className="v-middle" />
         </div>}
-        <canvas style={{ zIndex:10, position: (!recording && !screenshare) ? "absolute" :  (!screenshare && recording)||(screenshare && window.expanded !== 'screen') ? "absolute":"null", left: window.expanded !== 'screen' && canvasPos.left }}></canvas>
+        <canvas style={{ zIndex:10, position: (!recording && !screenshare) ? "absolute" :  (!screenshare && recording)||(screenshare && window.expanded !== 'screen') ? "absolute":"null", /*left: window.expanded !== 'screen' && canvasPos.left,*/ top:0 }}></canvas>
         {storing && <div className="timer circular" style={{ color: "#f3f1f1" }}>
           <div style={{ display: "inline-block" }}>{hours <= 9 ? "0" + hours : hours}:</div><div style={{ display: "inline-block" }}>{minutes <= 9 ? <span>0{minutes}</span> : minutes}:</div>
           <div style={{ display: "inline-block" }}>{seconds <= 9 ? "0" + seconds : seconds}</div>
