@@ -192,6 +192,7 @@ video {
 	position: fixed;
 	bottom: 40px;
 	left: 20px;
+	z-index: 100;
 }
 
 .action-buttons .__react_component_tooltip {

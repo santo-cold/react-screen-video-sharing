@@ -5,10 +5,14 @@ import video from './video.svg';
 import record from './record.svg';
 import defaultImg from './default.svg';
 import live from './live.svg';
+import mic from './microphone.svg';
+import mutedmic from './microphonemuted.svg';
+
+
 
 
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
 import ReactNotification from 'react-notifications-component'
@@ -32,6 +36,8 @@ function App() {
   const [screenshare, setScreenshare] = useState(false)
   const [recording, setRecording] = useState(false)
   const [storing, setStoring] = useState(false)
+  const [audioRecording, setAudioRecording] = useState(false)
+  const [muted, setMuted] = useState(false)
   const [expanded, setExpanded] = useState("recorded")
   const [drawVideoIntervalId, setDrawVideoIntervalId] = useState('')
   const [screenShareVideoIntervalId, setDrawScreenShareIntervalId] = useState('')
@@ -214,6 +220,33 @@ function App() {
     }
   }
 
+  function recordAudio() {
+    // if (recorder && recorder.state == "recording") {
+    //     recorder.stop();
+    //     audioStream.getAudioTracks()[0].stop();
+    // } else {
+        navigator.mediaDevices.getUserMedia({
+            audio: true
+        }).then(function(stream) {
+            window.audioStream = stream;
+        });
+    // }
+  }
+
+  function muteAudio(){
+    if(audioRecording){
+      window.audioStream.getAudioTracks()[0].enabled = !muted;
+      setMuted(!muted)
+    }
+  }
+
+  useEffect(() => {
+    recordAudio()
+    setAudioRecording(true)
+  }, [])
+
+
+
   function startRecording() {
     recordedBlobs = []
     let options = { mimeType: 'video/webm;codecs=vp9,opus' };
@@ -232,7 +265,8 @@ function App() {
 
     try {
       let stream = window.canvas.captureStream();
-      mediaRecorder = new MediaRecorder(stream, options);
+      let mixedStream  = new MediaStream([window.audioStream.getAudioTracks()[0], stream.getVideoTracks()[0]]);
+      mediaRecorder = new MediaRecorder(mixedStream, options);
     } catch (e) {
       console.error('Exception while creating MediaRecorder:', e);
       handleError(new Error(`Exception while creating MediaRecorder: ${JSON.stringify(e)}`))
@@ -301,6 +335,14 @@ function App() {
             <span className="circular" style={{ fontSize: 15 }}>{recording ? " Stop video" : "Share video"}</span>
           </ReactTooltip>
 
+          <div data-tip data-for='audio' onClick={() => muteAudio()} className={`circular start3`} id={!muted ? "stop" : "start"}>
+            <img src={!muted ? mic: mutedmic} width="30px" height="30px" className="v-middle" />
+          </div>
+
+          <ReactTooltip id='audio' type='dark' place="top" effect='solid'>
+            <span className="circular" style={{ fontSize: 15 }}>{!muted ? "Mute micophone" : "Unmute micophone"}</span>
+          </ReactTooltip>
+
           <div data-tip data-for='storing' onClick={() => storing ? stopRecording(true) : startRecording()} className={`circular start3 ${!recording && !screenshare && !storing ? "disabled" : null}`} id={storing ? "stop" : "start"}>
             <img src={record} width="30px" height="30px" className="v-middle" />
           </div>
@@ -308,6 +350,8 @@ function App() {
           <ReactTooltip id='storing' type='dark' place="top" effect='solid'>
             <span className="circular" style={{ fontSize: 15 }}>{storing ? "Stop recording" : "Start recording"}</span>
           </ReactTooltip>
+
+
         </div>
         <video id="screen" className={`${expanded == "recorded" && "bottom-right"}`} autoPlay playsInline muted style={{ position: "absolute", visibility: "hidden", height: 0 }}></video>
         <video id="recorded" className={`${expanded == "screen" && "bottom-right"}`} playsInline autoPlay muted style={{ position: "absolute", visibility: "hidden", height: 0 }}></video>
