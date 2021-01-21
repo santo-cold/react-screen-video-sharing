@@ -71,7 +71,7 @@ code {
 
 .action-buttons {
 	position: fixed;
-	bottom: 35px;
+	bottom: 40px;
 	text-align: center;
 	z-index: 200;
 }
@@ -192,7 +192,6 @@ video {
 	position: fixed;
 	bottom: 40px;
 	left: 20px;
-	z-index: 100;
 }
 
 .action-buttons .__react_component_tooltip {
@@ -202,11 +201,4 @@ video {
 
 .action-buttons .__react_component_tooltip::after {
 	border-top-color: #1b1e24 !important;
-}
-
-.switch-div{
-	margin-top: 7px;
-    position: relative;
-    display: flex;
-    margin-left: 16px;
 }

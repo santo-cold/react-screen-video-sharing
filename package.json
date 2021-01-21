@@ -1,49 +1,42 @@
 {
-	"name": "ReactVideoRecordingAndScreenSharing",
-	"version": "0.1.0",
-	"private": true,
-	"homepage": "https://github.com/santo-cold/react-screen-video-sharing",
-	"dependencies": {
-		"@testing-library/jest-dom": "^5.11.9",
-		"@testing-library/react": "^11.2.3",
-		"@testing-library/user-event": "^12.6.0",
-		"concatenateblobs": "^1.0.2",
-		"react": "^17.0.1",
-		"react-audio-recorder": "^2.2.0",
-		"react-dom": "^17.0.1",
-		"react-notifications-component": "^3.0.3",
-		"react-scripts": "4.0.1",
-		"react-timer-hook": "^2.0.7",
-		"react-tooltip": "^4.2.13",
-		"web-vitals": "^0.2.4"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
-		"predeploy": "npm run build",
-		"deploy": "gh-pages -d build"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
-	"devDependencies": {
-		"gh-pages": "^3.1.0"
-	}
+  "name": "ReactVideoRecordingAndScreenSharing",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.3",
+    "@testing-library/user-event": "^12.6.0",
+    "concatenateblobs": "^1.0.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-notifications-component": "^3.0.3",
+    "react-scripts": "4.0.1",
+    "react-timer-hook": "^2.0.7",
+    "react-tooltip": "^4.2.13",
+    "web-vitals": "^0.2.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
