@@ -62,7 +62,7 @@ function App() {
       if (!recording) {
         setExpanded('screen')
       }
-      navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
+      navigator.mediaDevices.getDisplayMedia({ video: true })
         .then(handleSuccess, handleError);
     } catch (err) {
       console.error("Error: " + err);
@@ -106,7 +106,7 @@ function App() {
       aspectRatio: stream.getVideoTracks()[0].getSettings().aspectRatio,
       height: stream.getVideoTracks()[0].getSettings().height,
       width: stream.getVideoTracks()[0].getSettings().width
-    }), 1000/24)
+    }), 1000/20)
     setDrawScreenShareIntervalId(setIntervalDrawScreenShareId)
     stream.getVideoTracks()[0].addEventListener('ended', () => {
       setScreenshare(false)
@@ -166,7 +166,6 @@ function App() {
 
   function handleSuccessVideoRecording(stream) {
     setRecording(true)
-    console.log('getUserMedia() got stream:', stream);
     const gumVideo = document.querySelector('video#recorded');
     gumVideo.srcObject = stream;
     window.videoHeight = stream.getVideoTracks()[0].getSettings().height;
@@ -176,7 +175,7 @@ function App() {
       let setIntervalDrawVideoId = window.setInterval(() => drawOnCanvas({
         recording: true,
         screenshare,
-      }), 1000 / 24)
+      }), 1000 / 20)
       setDrawVideoIntervalId(setIntervalDrawVideoId)
     } else {
       drawOnCanvas({
@@ -242,7 +241,6 @@ function App() {
 
 
   function handleDataAvailable(event) {
-    console.log('handleDataAvailable', event);
     if (event.data && event.data.size > 0) {
       recordedBlobs.push(event.data);
     }
@@ -311,7 +309,6 @@ function App() {
     console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
     mediaRecorder.onstop = (event) => {
       console.log('Recorder stopped: ', event);
-      console.log('Recorded Blobs: ', recordedBlobs);
       const blob = new Blob(recordedBlobs, { type: 'video/webm' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -330,7 +327,6 @@ function App() {
     mediaRecorder.ondataavailable = handleDataAvailable;
     mediaRecorder.start();
     setStoring(true)
-    console.log('MediaRecorder started', mediaRecorder);
     start()
   }
 
@@ -372,6 +368,7 @@ function App() {
 
           <div data-tip data-for='audio' onClick={() => muteAudio()} className={`circular start3`} id={!muted ? "stop" : "start"}>
             <img src={!muted ? mic: mutedmic} width="30px" height="30px" className="v-middle" />
+            <div style={{marginTop:22, fontWeight:100, color:"grey"}}>{muted && "Muted"}</div>
           </div>
 
           <ReactTooltip id='audio' type='dark' place="top" effect='solid'>
@@ -381,6 +378,7 @@ function App() {
           <div data-tip data-for='storing' onClick={() => storing ? stopRecording(true) : startRecording()} className={`circular start3 ${!recording && !screenshare && !storing ? "disabled" : null}`} id={storing ? "stop" : "start"}>
             <img src={record} width="30px" height="30px" className="v-middle" />
           </div>
+
 
           <ReactTooltip id='storing' type='dark' place="top" effect='solid'>
             <span className="circular" style={{ fontSize: 15 }}>{storing ? "Stop recording" : "Start recording"}</span>

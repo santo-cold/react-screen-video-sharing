@@ -67,6 +67,7 @@ code {
 	height: 60px;
 	border-radius: 100px;
 	margin: 0px 17px;
+	/* box-shadow: 0px 0px 0px 1px #2221214d; */
 }
 
 .action-buttons {
