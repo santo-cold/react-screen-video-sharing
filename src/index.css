@@ -1,26 +1,35 @@
 body {
 	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-		sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+		'Droid Sans', 'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
 code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-		monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 @font-face {
 	font-family: 'Circular';
 	src: url(./CircularStd-Medium.ttf);
-	font-weight: 100;
+	font-weight: 500;
+}
+
+@font-face {
+	font-family: 'Circular';
+	src: url(./Circular-Regular.ttf);
+	font-weight: 400;
 }
 
 .circular {
 	font-family: circular;
-	font-weight: 100 !important;
+}
+.regular {
+	font-weight: 400 !important;
+}
+.medium {
+	font-weight: 500 !important;
 }
 
 /* .start2 {
@@ -100,6 +109,22 @@ code {
 	z-index: 200;
 }
 
+.active-window {
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	z-index: 100;
+	background: #000000;
+	height: 110px;
+	transition: 0.5s cubic-bezier(0.5, 0.5, 0, 1);
+}
+
+.active-window-text {
+	font-size: 16px;
+	padding: 0px 27px;
+	margin-top: 27px;
+	transition: 0.5s cubic-bezier(0.5, 0.5, 0, 1);
+}
 .v-middle {
 	vertical-align: middle;
 }
@@ -192,8 +217,9 @@ video {
 }
 .timer {
 	position: fixed;
-	bottom: 40px;
+	bottom: 43px;
 	left: 20px;
+	font-size: 17px;
 	z-index: 100;
 }
 
@@ -206,9 +232,9 @@ video {
 	border-top-color: #1b1e24 !important;
 }
 
-.switch-div{
+.switch-div {
 	margin-top: 7px;
-    position: relative;
-    display: flex;
-    margin-left: 16px;
+	position: relative;
+	display: flex;
+	margin-left: 16px;
 }
