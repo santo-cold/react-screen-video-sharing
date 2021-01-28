@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/react-screen-video-sharing/static/css/main.f27ddd0a.chunk.css",
-    "main.js": "/react-screen-video-sharing/static/js/main.239e6c39.chunk.js",
-    "main.js.map": "/react-screen-video-sharing/static/js/main.239e6c39.chunk.js.map",
+    "main.css": "/react-screen-video-sharing/static/css/main.458ec3e7.chunk.css",
+    "main.js": "/react-screen-video-sharing/static/js/main.b434b1e0.chunk.js",
+    "main.js.map": "/react-screen-video-sharing/static/js/main.b434b1e0.chunk.js.map",
     "runtime-main.js": "/react-screen-video-sharing/static/js/runtime-main.5f129bf1.js",
     "runtime-main.js.map": "/react-screen-video-sharing/static/js/runtime-main.5f129bf1.js.map",
     "static/css/2.c49baa93.chunk.css": "/react-screen-video-sharing/static/css/2.c49baa93.chunk.css",
@@ -12,23 +12,26 @@
     "static/js/3.2f664cdb.chunk.js.map": "/react-screen-video-sharing/static/js/3.2f664cdb.chunk.js.map",
     "index.html": "/react-screen-video-sharing/index.html",
     "static/css/2.c49baa93.chunk.css.map": "/react-screen-video-sharing/static/css/2.c49baa93.chunk.css.map",
-    "static/css/main.f27ddd0a.chunk.css.map": "/react-screen-video-sharing/static/css/main.f27ddd0a.chunk.css.map",
+    "static/css/main.458ec3e7.chunk.css.map": "/react-screen-video-sharing/static/css/main.458ec3e7.chunk.css.map",
     "static/js/2.2933afbd.chunk.js.LICENSE.txt": "/react-screen-video-sharing/static/js/2.2933afbd.chunk.js.LICENSE.txt",
     "static/media/index.css": "/react-screen-video-sharing/static/media/CircularStd-Medium.979792e7.ttf",
     "static/media/default.fe61671c.svg": "/react-screen-video-sharing/static/media/default.fe61671c.svg",
+    "static/media/grid.56527739.svg": "/react-screen-video-sharing/static/media/grid.56527739.svg",
     "static/media/live.41bc718e.svg": "/react-screen-video-sharing/static/media/live.41bc718e.svg",
     "static/media/logo.6ce24c58.svg": "/react-screen-video-sharing/static/media/logo.6ce24c58.svg",
     "static/media/microphone.49d8b474.svg": "/react-screen-video-sharing/static/media/microphone.49d8b474.svg",
-    "static/media/microphonemuted.dcfbcdc8.svg": "/react-screen-video-sharing/static/media/microphonemuted.dcfbcdc8.svg",
+    "static/media/microphonemuted.cdc8e750.svg": "/react-screen-video-sharing/static/media/microphonemuted.cdc8e750.svg",
     "static/media/record.44b2eb0e.svg": "/react-screen-video-sharing/static/media/record.44b2eb0e.svg",
     "static/media/screen.04305a48.svg": "/react-screen-video-sharing/static/media/screen.04305a48.svg",
-    "static/media/video.433a10ed.svg": "/react-screen-video-sharing/static/media/video.433a10ed.svg"
+    "static/media/screenOut.e910bb34.svg": "/react-screen-video-sharing/static/media/screenOut.e910bb34.svg",
+    "static/media/video.433a10ed.svg": "/react-screen-video-sharing/static/media/video.433a10ed.svg",
+    "static/media/videoOut.340e0b45.svg": "/react-screen-video-sharing/static/media/videoOut.340e0b45.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.5f129bf1.js",
     "static/css/2.c49baa93.chunk.css",
     "static/js/2.2933afbd.chunk.js",
-    "static/css/main.f27ddd0a.chunk.css",
-    "static/js/main.239e6c39.chunk.js"
+    "static/css/main.458ec3e7.chunk.css",
+    "static/js/main.b434b1e0.chunk.js"
   ]
 }
