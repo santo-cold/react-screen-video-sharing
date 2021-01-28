@@ -33,8 +33,8 @@ code {
 	left: calc(50% - 270px);
 } */
 #start {
+	background-color: #c73333;
 	display: inline-block;
-	background-color: #318e31;
 	color: white;
 	border-radius: 30px;
 	font-size: 15px;
@@ -54,7 +54,8 @@ code {
 }
 #stop {
 	display: inline-block;
-	background-color: #c73333;
+	background-color: #318e31;
+
 	color: white;
 	border-radius: 30px;
 	font-size: 15px;
@@ -72,7 +73,7 @@ code {
 
 .action-buttons {
 	position: fixed;
-	bottom: 35px;
+	bottom: 25px;
 	text-align: center;
 	z-index: 200;
 }
@@ -95,7 +96,7 @@ code {
 	position: fixed;
 	width: 100%;
 	bottom: 0px;
-	height: 125px;
+	height: 110px;
 	z-index: 200;
 }
 

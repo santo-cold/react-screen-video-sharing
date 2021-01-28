@@ -1,12 +1,18 @@
 /* eslint-disable jsx-a11y/alt-text */
 import logo from './logo.svg';
 import screen from './screen.svg';
+import screenOut from './screenOut.svg';
+
 import video from './video.svg';
+import videoOut from './videoOut.svg';
+
 import record from './record.svg';
 import defaultImg from './default.svg';
 import live from './live.svg';
 import mic from './microphone.svg';
 import mutedmic from './microphonemuted.svg';
+import grid from './grid.svg';
+
 
 
 
@@ -55,6 +61,7 @@ function App() {
   window.screenshare = screenshare
   window.recording = recording
   window.expanded = expanded
+  const bottomBarHeight = 110
 
 
   async function startScreenRecording() {
@@ -188,38 +195,38 @@ function App() {
   function drawOnCanvas({ aspectRatio, width, height, recording, screenshare }) {
     const canvas = window.canvas = document.querySelector('canvas');
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight - 125;
+    canvas.height = window.innerHeight - bottomBarHeight;
     const recordedVideo = document.querySelector('video#recorded');
     const video = document.querySelector('video#screen');
     if (window.recording && window.screenshare) {
       if (window.expanded == 'screen') {
-        let xValue =  (window.innerHeight - 125)* aspectRatio || window.screenAspectRatio
+        let xValue =  (window.innerHeight - bottomBarHeight)* aspectRatio || window.screenAspectRatio
         let fromLeft = (window.innerWidth - xValue)/2
         fromLeft =  fromLeft > 0 ? fromLeft : 0 
-        canvas.getContext('2d').drawImage(video, fromLeft, 0, (window.innerHeight - 125) *  (aspectRatio || window.screenAspectRatio), window.innerHeight - 125);
-        canvas.getContext('2d').drawImage(recordedVideo, ((window.innerWidth - (1280 * 105) / 720) - 50), window.innerHeight - 125 - 150, (1280 * 105) / 720, 105);
+        canvas.getContext('2d').drawImage(video, fromLeft, 0, (window.innerHeight - bottomBarHeight) *  (aspectRatio || window.screenAspectRatio), window.innerHeight - bottomBarHeight);
+        canvas.getContext('2d').drawImage(recordedVideo, ((window.innerWidth - (1280 * 105) / 720) - 50), window.innerHeight - bottomBarHeight - 150, (1280 * 105) / 720, 105);
       } else {
-        let xValue = (window.innerHeight-125) * window.aspectRatio
-        let yValue =  window.innerHeight-125;
+        let xValue = (window.innerHeight-bottomBarHeight) * window.aspectRatio
+        let yValue =  window.innerHeight-bottomBarHeight;
         let fromLeft = (window.innerWidth - xValue)/2
         fromLeft =  fromLeft > 0 ? fromLeft : 0 
         canvas.getContext('2d').drawImage(recordedVideo, fromLeft, 0, xValue, yValue);
-        canvas.getContext('2d').drawImage(video, ((window.innerWidth - (1280 * 105) / 720) - 50) ,window.innerHeight - 125 - 150,  (width * 105) / (height), 105);
+        canvas.getContext('2d').drawImage(video, ((window.innerWidth - (1280 * 105) / 720) - 50) ,window.innerHeight - bottomBarHeight - 150,  (width * 105) / (height), 105);
       }
     }
     else {
       if (window.recording) {
-        let xValue = (window.innerHeight-125) * window.aspectRatio
-        let yValue =  window.innerHeight-125;
+        let xValue = (window.innerHeight-bottomBarHeight) * window.aspectRatio
+        let yValue =  window.innerHeight-bottomBarHeight;
         let fromLeft = (window.innerWidth - xValue)/2
         fromLeft =  fromLeft > 0 ? fromLeft : 0 
         canvas.getContext('2d').drawImage(recordedVideo, fromLeft, 0, xValue, yValue);
       }
       if (window.screenshare) {
-        let xValue =  (window.innerHeight - 125)*  (aspectRatio || window.screenAspectRatio)
+        let xValue =  (window.innerHeight - bottomBarHeight)*  (aspectRatio || window.screenAspectRatio)
         let fromLeft = (window.innerWidth - xValue)/2
         fromLeft =  fromLeft > 0 ? fromLeft : 0 
-        canvas.getContext('2d').drawImage(video, fromLeft, 0, (window.innerHeight - 125)*(aspectRatio || window.screenAspectRatio), window.innerHeight - 125);
+        canvas.getContext('2d').drawImage(video, fromLeft, 0, (window.innerHeight - bottomBarHeight)*(aspectRatio || window.screenAspectRatio), window.innerHeight - bottomBarHeight);
       }
     }
   }
@@ -341,9 +348,9 @@ function App() {
     <div className="App" >
       <ReactNotification />
       <header className="App-header" id="content" style={{overflow:"hidden"}}>
-        {(!recording && !screenshare) ? <div style={{ marginTop: -115 }}>
-          <img src={defaultImg} width="400px" height="auto" />
-          <div className="circular text-center" style={{ marginTop: 30 }}>
+        {(!recording && !screenshare) ? <div style={{ marginTop: -bottomBarHeight, textAlign:"center" }}>
+          <img src={defaultImg} width="350px" height="auto" />
+          <div className="circular text-center" style={{ marginTop: 35 }}>
             You are not sharing anything
           </div>
         </div> : null}
@@ -352,7 +359,7 @@ function App() {
         </div>
         <div className="action-buttons">
           <div data-tip data-for='shareScreen' onClick={() => screenshare ? stopScreenShare() : startScreenRecording()} className="circular start" id={screenshare ? "stop" : "start"}>
-            <img src={screen} width="30px" height="30px" className="v-middle" />
+            <img src={screenshare ?  screen : screenOut} width="30px" height="30px" className="v-middle" style={{marginLeft:!screenshare && -2}} />
           </div>
 
           <ReactTooltip id='shareScreen' type='dark' place="top" effect='solid'>
@@ -360,7 +367,7 @@ function App() {
           </ReactTooltip>
 
           <div data-tip data-for='recording' onClick={() => recording ? stopVideoRecording() : startVideoRecording()} className="circular start2" id={recording ? "stop" : "start"}>
-            <img src={video} width="30px" height="30px" className="v-middle" />
+            <img src={recording ?  video : videoOut} width="30px" height="30px" className="v-middle" />
           </div>
           <ReactTooltip id='recording' type='dark' place="top" effect='solid'>
             <span className="circular" style={{ fontSize: 15 }}>{recording ? " Stop video" : "Share video"}</span>
@@ -368,7 +375,7 @@ function App() {
 
           <div data-tip data-for='audio' onClick={() => muteAudio()} className={`circular start3`} id={!muted ? "stop" : "start"}>
             <img src={!muted ? mic: mutedmic} width="30px" height="30px" className="v-middle" />
-            <div style={{marginTop:22, fontWeight:100, color:"grey"}}>{muted && "Muted"}</div>
+            <div style={{marginTop:19, fontWeight:100, color:"grey", fontSize:"0.7rem"}}>{muted && "Muted"}</div>
           </div>
 
           <ReactTooltip id='audio' type='dark' place="top" effect='solid'>
