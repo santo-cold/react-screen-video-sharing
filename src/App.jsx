@@ -1,19 +1,18 @@
 /* eslint-disable jsx-a11y/alt-text */
-import logo from './logo.svg';
-import screen from './screen.svg';
-import screenOut from './screenOut.svg';
+import screen from './images/screen.svg';
+import screenOut from './images/screenOut.svg';
 
-import video from './video.svg';
-import videoOut from './videoOut.svg';
+import video from './images/video.svg';
+import videoOut from './images/videoOut.svg';
 
-import record from './record.svg';
-import defaultImg from './default.svg';
-import live from './live.svg';
-import mic from './microphone.svg';
-import mutedmic from './microphonemuted.svg';
-import grid from './grid.svg';
+import record from './images/record.svg';
+import defaultImg from './images/default.svg';
+import live from './images/live.svg';
+import mic from './images/microphone.svg';
+import mutedmic from './images/microphonemuted.svg';
+import grid from './images/grid.svg';
 
-import './App.css';
+import './css/App.css';
 import { useEffect, useState } from 'react';
 import 'react-notifications-component/dist/theme.css';
 import { store } from 'react-notifications-component';

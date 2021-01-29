@@ -12,13 +12,13 @@ code {
 
 @font-face {
 	font-family: 'Circular';
-	src: url(./CircularStd-Medium.ttf);
+	src: url(../fonts/CircularStd-Medium.ttf);
 	font-weight: 500;
 }
 
 @font-face {
 	font-family: 'Circular';
-	src: url(./Circular-Regular.ttf);
+	src: url(../fonts/Circular-Regular.ttf);
 	font-weight: 400;
 }
 
